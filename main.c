@@ -1,5 +1,6 @@
 #include <stdio.h>
-//声明函数 结构体
+#define DB_LEN 50
+// 声明函数 结构体
 void insert();
 void modify();
 void delete();
@@ -13,7 +14,7 @@ struct stu {
 	char sex[2];
 	long date;
 	char tel[16];
-} s[50];
+} s[DB_LEN];
 
 
 //主函数开始
@@ -24,11 +25,11 @@ int main()
 	do {
 		printf("欢迎使用学生信息管理系统\n");
 		printf("请输入数字:\n");
-		printf("1---插入\n");
-		printf("2---修改\n");
-		printf("3---删除\n");
-		printf("4---查询\n");
-		printf("5---退出\n");
+		printf("1:\t插入\n");
+		printf("2:\t修改\n");
+		printf("3:\t删除\n");
+		printf("4:\t查询\n");
+		printf("5:\t退出\n");
 		scanf("%d",&i);
 		switch (i) {
 			case 1 :
@@ -61,7 +62,7 @@ int main()
 void insert()
 {
 	int i;
-	if (count>50)
+	if (count>DB_LEN)
 	{
 		printf("空间已满");
 		return;
@@ -105,7 +106,7 @@ void listone()
 	int i,id;
 	printf("请输入需要查询的学生学号");
 	scanf("%d",&id);
-	for (i=0;i<=50;i++)
+	for (i=0;i<=DB_LEN;i++)
 	{
 		if(s[i].id==id)
 		{
@@ -137,7 +138,7 @@ void modify()
 	int i,id;
 	printf("请输入需要修改的学生学号");
 	scanf("%d",&id);
-	for (i=0;i<=50;i++)
+	for (i=0;i<=DB_LEN;i++)
 	{
 		if(s[i].id==id)
 		{
@@ -163,7 +164,7 @@ void delete()
 	struct s *p = NULL;
 	printf("请输入需要删除的学生学号");
 	scanf("%d",&id);
-	for (i=0;i<=50;i++)
+	for (i=0;i<=DB_LEN;i++)
 	{
 		if(s[i].id==id)
 		{
@@ -185,7 +186,7 @@ void save()
 	int n;
 	FILE *fp;
 	fp=fopen("data.txt","r+");
-	for(n=0;n<50;n++)
+	for(n=0;n<DB_LEN;n++)
 	fwrite(&s[n],sizeof(struct stu),1,fp);
 	fwrite(&count,4,1,fp);
 	fclose(fp);
@@ -198,7 +199,7 @@ void read()
 	int n;
 	if((fp=fopen("data.txt","r+"))==NULL)
 	fp=fopen("data.txt","w+");
-	for(n=0;n<50;n++)
+	for(n=0;n<DB_LEN;n++)
 	fread(&s[n],sizeof(struct stu),1,fp);fread(&count,4,1,fp);
 	fclose(fp);
 }
