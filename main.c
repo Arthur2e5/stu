@@ -7,7 +7,7 @@ void list();
 void save();
 void read();
 int count=0;
-struct s {
+struct stu {
 	int id;
 	char name[20];
 	char sex[2];
@@ -19,8 +19,8 @@ struct s {
 //主函数开始
 int main()
 {
-    read();
 	int i;
+    read();
 	do {
 		printf("欢迎使用学生信息管理系统\n");
 		printf("请输入数字:\n");
@@ -180,13 +180,28 @@ void delete()
 }
 
 //保存
+
+void save()
+{
+	int n;
+	FILE *fp;
+	fp=fopen("data.txt","r+");
+	for(n=0;n<50;n++)
+	fwrite(&s[n],sizeof(struct stu),1,fp);
+	fwrite(&count,4,1,fp);
+	fclose(fp);
+}
+
+/*
 void save()
 {
     int c;
     FILE *fp;
     fp=fopen("stu.txt","wb");
     for (c=9;c<50;c++)
-        fwrite(&s[c], sizeof(struct s),1,fp);
+//        fwrite(&s[c], sizeof(struct s),1,fp);
+		fprintf(fp,"|%6d|%6s|%6s|%10d|%12s|\n",s[c].id,s[c].name,s[c].sex,s[c].date,s[c].tel);
+	//fclose(fp);
     printf("保存完成");
 }
 
@@ -206,18 +221,32 @@ void save22()
         fclose(fp);
     }
 }
-
+*/
 //读取
+void read()
+{
+	FILE *fp;
+	int n;
+	if((fp=fopen("data.txt","r+"))==NULL)
+	fp=fopen("data.txt","w+");
+	for(n=0;n<50;n++)
+	fread(&s[n],sizeof(struct stu),1,fp);fread(&count,4,1,fp);
+	fclose(fp);
+}
+
+/*
 void read()
 {
     int c;
     FILE *fp;
-    fp=fopen("stu.txt","wb");
+    fp=fopen("stu.txt","r");
     for (c=0;c<50;c++)
-        fread(&s[c], sizeof(struct s),1,fp);
+        //fread(&s[c], sizeof(struct s),1,fp);
+		fscanf(fp,"|%6d|%6s|%6s|%10d|%12s|\n",&s[c].id,&s[c].name,&s[c].sex,&s[c].date,&s[c].tel);
+	fclose(fp);
     printf("读取完成");
 }
-
+/*
 void read22()
 {
     FILE *fp;
@@ -233,3 +262,4 @@ void read22()
         fclose(fp);
     }
 }
+*/
